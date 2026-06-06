@@ -43,9 +43,7 @@ release:
 # - llvm-tools-preview component (install via: rustup component add llvm-tools-preview)
 coverage package='none':
     cargo llvm-cov clean --workspace
-    cargo llvm-cov --html {{ if package == 'none' { '--workspace' } else { '--package ' + package } }}
-    @echo
-    @echo 'open {{ justfile_directory() }}/target/llvm-cov/html/index.html'
+    @target_dir="${CARGO_TARGET_DIR:-target}"; cargo llvm-cov --html {{ if package == 'none' { '--workspace' } else { '--package ' + package } }} --output-dir "{{ justfile_directory() }}/${target_dir}/llvm-cov"; echo "open {{ justfile_directory() }}/${target_dir}/llvm-cov/html/index.html"
 
 # Run benches (unstable)
 bench:
